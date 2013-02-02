@@ -4,4 +4,5 @@
 *.jar
 *.war
 *.ear
-/OLSubwayMaker/nbproject/private/
+/nbproject/private/
+/build/
