@@ -9,6 +9,7 @@ import SubwayMaker.Elements.Island;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +27,37 @@ public class MapController {
     private int width, height;
     
     //Elements to print
-    private List<List<Element> > elemList = new ArrayList<>(3);
+    private List<List<Element> > elemList;
+    private boolean editing;
+    private Element editElem;
     
     public MapController(){
         blocksize = 20;
         width = 50;
         height = 30;
         gridColor = Color.LIGHT_GRAY;
+        elemList = new ArrayList<>(3);
+        editing = false;
+        for (int i = 0; i < 3; i++) {
+            elemList.add(new ArrayList<Element>());   
+        }
+    }
+    
+    public void addPoint(float x, float y){
+        Point2D.Float pt = new Point2D.Float(x, y);
+        if(editing){
+            editElem.add(pt);
+        }
+        else{
+            editElem = new Island();
+            editElem.add(pt);
+            elemList.get(0).add(editElem);
+            editing = true;
+        }
+    }
+    
+    public void complete(){
+        editing = false;
     }
     
     public Dimension canvasSize(){
@@ -41,6 +66,11 @@ public class MapController {
     
     public void paint(Graphics2D g){
         paintGrid(g);
+        for (List<Element> list : elemList) {
+            for (Element element : list) {
+                element.paint(g, blocksize);
+            }
+        }
     }
     
     private void paintGrid(Graphics2D g) {

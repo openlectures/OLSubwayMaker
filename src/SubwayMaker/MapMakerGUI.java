@@ -6,7 +6,15 @@ package SubwayMaker;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -22,6 +30,13 @@ public class MapMakerGUI extends javax.swing.JFrame {
     public MapMakerGUI() {
         mc = new MapController();
         initComponents();
+        mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true), "submit");
+        mainPanel.getActionMap().put("submit", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mc.complete();
+            }
+        });
     }
 
     /**
@@ -64,6 +79,8 @@ public class MapMakerGUI extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("OLSubwayMaker");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jScrollPane1.setViewportView(elementsList);
 
@@ -172,6 +189,9 @@ public class MapMakerGUI extends javax.swing.JFrame {
         mainPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         mainPanel.setPreferredSize(mc.canvasSize());
         mainPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainPanelMouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 mainPanelMouseExited(evt);
             }
@@ -186,11 +206,11 @@ public class MapMakerGUI extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
 
         wrapperPanel.add(mainPanel);
@@ -220,8 +240,8 @@ public class MapMakerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,6 +276,11 @@ public class MapMakerGUI extends javax.swing.JFrame {
     private void mainPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseExited
         positionLabel.setText("Position: ");
     }//GEN-LAST:event_mainPanelMouseExited
+
+    private void mainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseClicked
+        mc.addPoint(evt.getX(), evt.getY());
+        mainPanel.repaint();
+    }//GEN-LAST:event_mainPanelMouseClicked
         
     /**
      * @param args the command line arguments
