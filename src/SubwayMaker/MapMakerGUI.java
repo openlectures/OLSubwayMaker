@@ -8,13 +8,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeListener;
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import sun.nio.cs.MS1250;
 
 /**
  *
@@ -48,19 +49,29 @@ public class MapMakerGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        editOptGroup = new ButtonGroup(){
+            @Override
+            public void setSelected(ButtonModel model, boolean selected) {
+                if (selected) {
+                    super.setSelected(model, selected);
+                } else {
+                    clearSelection();
+                }
+            }
+        };
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         elementsList = new javax.swing.JList();
         removeButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        stationButton = new javax.swing.JButton();
-        trackButton = new javax.swing.JButton();
-        islandButton = new javax.swing.JButton();
         stationCheckBox = new javax.swing.JCheckBox();
         trackCheckBox = new javax.swing.JCheckBox();
         islandCheckBox = new javax.swing.JCheckBox();
         linkButton = new javax.swing.JButton();
+        stationToggleButton = new javax.swing.JToggleButton();
+        trackToggleButton = new javax.swing.JToggleButton();
+        islandToggleButton = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         positionLabel = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
@@ -99,58 +110,68 @@ public class MapMakerGUI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(removeButton))
         );
 
-        stationButton.setText("Stations");
-
-        trackButton.setText("Tracks");
-
-        islandButton.setText("Islands");
-
         linkButton.setText("Links");
+
+        editOptGroup.add(stationToggleButton);
+        stationToggleButton.setText("Stations");
+
+        editOptGroup.add(trackToggleButton);
+        trackToggleButton.setText("Tracks");
+
+        editOptGroup.add(islandToggleButton);
+        islandToggleButton.setText("Islands");
+        islandToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                islandToggleButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(trackCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(trackToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(linkButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(trackCheckBox)
-                            .addComponent(islandCheckBox)
-                            .addComponent(stationCheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(stationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(islandButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(trackButton, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))))
+                        .addComponent(islandCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(islandToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(stationCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(stationToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(stationButton)
-                    .addComponent(stationCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(trackButton)
-                    .addComponent(trackCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(islandButton)
-                    .addComponent(islandCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(stationCheckBox)
+                    .addComponent(stationToggleButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(trackCheckBox)
+                    .addComponent(trackToggleButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(islandCheckBox)
+                    .addComponent(islandToggleButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(linkButton)
                 .addContainerGap())
         );
@@ -166,7 +187,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(positionLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 406, Short.MAX_VALUE)
                 .addComponent(jButton5))
         );
         jPanel3Layout.setVerticalGroup(
@@ -240,8 +261,8 @@ public class MapMakerGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,6 +302,17 @@ public class MapMakerGUI extends javax.swing.JFrame {
         mc.addPoint(evt.getX(), evt.getY());
         mainPanel.repaint();
     }//GEN-LAST:event_mainPanelMouseClicked
+
+    private void islandToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_islandToggleButtonActionPerformed
+        if(islandToggleButton.isSelected()){
+            mc.setMode(MapController.editMode.ISLAND);
+        }
+        else{
+            mc.complete();
+            mc.setMode(MapController.editMode.NONE);
+        }
+        
+    }//GEN-LAST:event_islandToggleButtonActionPerformed
         
     /**
      * @param args the command line arguments
@@ -302,6 +334,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MapMakerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -313,10 +346,11 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.ButtonGroup editOptGroup;
     private javax.swing.JList elementsList;
     private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JButton islandButton;
     private javax.swing.JCheckBox islandCheckBox;
+    private javax.swing.JToggleButton islandToggleButton;
     private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -329,10 +363,10 @@ public class MapMakerGUI extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel positionLabel;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton stationButton;
     private javax.swing.JCheckBox stationCheckBox;
-    private javax.swing.JButton trackButton;
+    private javax.swing.JToggleButton stationToggleButton;
     private javax.swing.JCheckBox trackCheckBox;
+    private javax.swing.JToggleButton trackToggleButton;
     private javax.swing.JPanel wrapperPanel;
     // End of variables declaration//GEN-END:variables
 }
