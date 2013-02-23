@@ -216,6 +216,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Stations"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stationToggleButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="trackToggleButton">
           <Properties>
@@ -224,6 +227,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Tracks"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="trackToggleButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="islandToggleButton">
           <Properties>

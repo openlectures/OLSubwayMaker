@@ -20,6 +20,7 @@ import java.util.List;
 public class MapController {
 
     public static enum editMode {
+
         NONE, ISLAND, TRACK, STATION
     }
     public static final int NONE = -1;
@@ -74,7 +75,10 @@ public class MapController {
     }
 
     public void complete() {
-        editing = false;
+        if (editing) {
+            editElem.complete();
+            editing = false;
+        }
     }
 
     public void setMode(editMode m) {

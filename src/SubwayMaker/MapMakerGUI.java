@@ -22,8 +22,8 @@ import sun.nio.cs.MS1250;
  * @author Yichen
  */
 public class MapMakerGUI extends javax.swing.JFrame {
-    
-     private MapController mc;
+
+    private MapController mc;
 
     /**
      * Creates new form MapMakerGUI
@@ -31,11 +31,12 @@ public class MapMakerGUI extends javax.swing.JFrame {
     public MapMakerGUI() {
         mc = new MapController();
         initComponents();
-        mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0,true), "submit");
+        mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "submit");
         mainPanel.getActionMap().put("submit", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mc.complete();
+                mainPanel.repaint();
             }
         });
     }
@@ -121,9 +122,19 @@ public class MapMakerGUI extends javax.swing.JFrame {
 
         editOptGroup.add(stationToggleButton);
         stationToggleButton.setText("Stations");
+        stationToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stationToggleButtonActionPerformed(evt);
+            }
+        });
 
         editOptGroup.add(trackToggleButton);
         trackToggleButton.setText("Tracks");
+        trackToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trackToggleButtonActionPerformed(evt);
+            }
+        });
 
         editOptGroup.add(islandToggleButton);
         islandToggleButton.setText("Islands");
@@ -291,7 +302,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void mainPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseMoved
-        positionLabel.setText("Position: " + evt.getX()+", "+evt.getY());
+        positionLabel.setText("Position: " + evt.getX() + ", " + evt.getY());
     }//GEN-LAST:event_mainPanelMouseMoved
 
     private void mainPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseExited
@@ -304,16 +315,35 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPanelMouseClicked
 
     private void islandToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_islandToggleButtonActionPerformed
-        if(islandToggleButton.isSelected()){
+        mc.complete();
+        if (islandToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.ISLAND);
-        }
-        else{
-            mc.complete();
+        } else {
             mc.setMode(MapController.editMode.NONE);
         }
-        
+        mainPanel.repaint();
     }//GEN-LAST:event_islandToggleButtonActionPerformed
-        
+
+    private void stationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stationToggleButtonActionPerformed
+        mc.complete();
+        if (islandToggleButton.isSelected()) {
+            mc.setMode(MapController.editMode.STATION);
+        } else {
+            mc.setMode(MapController.editMode.NONE);
+        }
+        mainPanel.repaint();
+    }//GEN-LAST:event_stationToggleButtonActionPerformed
+
+    private void trackToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackToggleButtonActionPerformed
+        mc.complete();
+        if (islandToggleButton.isSelected()) {
+            mc.setMode(MapController.editMode.TRACK);
+        } else {
+            mc.setMode(MapController.editMode.NONE);
+        }
+        mainPanel.repaint();
+    }//GEN-LAST:event_trackToggleButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -334,7 +364,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MapMakerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
