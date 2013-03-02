@@ -310,7 +310,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPanelMouseExited
 
     private void mainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseClicked
-        mc.addPoint(evt.getX(), evt.getY());
+        mc.addPoint(evt.getX(), evt.getY(), evt.isShiftDown());
         mainPanel.repaint();
     }//GEN-LAST:event_mainPanelMouseClicked
 

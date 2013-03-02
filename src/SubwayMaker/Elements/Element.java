@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
  * @author Yichen
  */
 public interface Element {
-    public abstract void add(Point2D.Float p);
+    public abstract void add(Point2D.Float p, boolean mod);
     public abstract void paint(Graphics2D g, int blocksize);
     public abstract void complete();
 }

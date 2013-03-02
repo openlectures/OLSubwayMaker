@@ -20,13 +20,8 @@ import java.util.List;
 public class MapController {
 
     public static enum editMode {
-
         NONE, ISLAND, TRACK, STATION
     }
-    public static final int NONE = -1;
-    public static final int ISLAND = 0;
-    public static final int TRACK = 1;
-    public static final int STATION = 2;
     //Colour of grid
     private Color gridColor;
     //The number of pixels each grid takes up.
@@ -52,12 +47,12 @@ public class MapController {
         }
     }
 
-    public void addPoint(float x, float y) {
-        List<Element> editList = null;
+    public void addPoint(float x, float y, boolean mod) {
+        List<Element> editList;
 
         Point2D.Float pt = new Point2D.Float(x, y);
         if (editing) {
-            editElem.add(pt);
+            editElem.add(pt, mod);
         } else {
             switch (mode) {
                 case ISLAND:
@@ -68,7 +63,7 @@ public class MapController {
                     return;
             }
 
-            editElem.add(pt);
+            editElem.add(pt, mod);
             editList.add(editElem);
             editing = true;
         }

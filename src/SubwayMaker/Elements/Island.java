@@ -34,7 +34,7 @@ public class Island implements Element {
     }
 
     @Override
-    public void add(Point2D.Float p) {
+    public void add(Point2D.Float p, boolean mod) {
         edgeList.add(p);
     }
 
