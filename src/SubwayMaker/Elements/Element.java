@@ -26,6 +26,20 @@ public abstract class Element {
     }
 
     /**
+     * Returns the nearest integer coordinate from the reference.
+     * <p/>
+     * Useful for snapping points to a grid.
+     * <p/>
+     * @param pt The reference point.
+     * @return A new point that's snapped to the nearest whole number
+     *         coordinate.
+     */
+    public static Point2D nearPoint(Point2D pt) {
+        // TODO use this function to settle snap to grid
+        return new Point2D.Double(Math.round(pt.getX()), Math.round(pt.getY()));
+    }
+
+    /**
      * Adds a new point to this
      * <code>Element</code>.
      * <p/>

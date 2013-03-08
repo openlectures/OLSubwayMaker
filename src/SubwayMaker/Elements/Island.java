@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 /**
  *
@@ -20,7 +21,7 @@ import java.util.ListIterator;
 public class Island extends Element {
 
     public static final Color INI_COLOR = new Color(30, 150, 200);
-    public static final float DIAMETER_SCALE = (float) 0.5;
+    public static final float DIAMETER_SCALE = 0.5f;
     private List<Point2D> edgeList;
     private Color fill;
     private boolean complete;
@@ -28,7 +29,11 @@ public class Island extends Element {
     public Island() {
         complete = false;
         edgeList = new ArrayList<>();
-        fill = new Color(50, 50, 50, 50);
+
+        Random random = new Random();
+
+        int rgb = Color.HSBtoRGB(random.nextFloat(), (random.nextInt(1000) + 2500) / 10000f, (random.nextInt(1000) + 8000) / 10000f);
+        fill = new Color((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 0x88);
     }
 
     @Override

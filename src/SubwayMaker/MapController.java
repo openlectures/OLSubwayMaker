@@ -6,6 +6,7 @@ package SubwayMaker;
 
 import SubwayMaker.Elements.Element;
 import SubwayMaker.Elements.Island;
+import SubwayMaker.Elements.Station;
 import SubwayMaker.Elements.Track;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -66,6 +67,10 @@ public class MapController {
                     editList = elemList.get(1);
                     editElem = new Track();
                     break;
+                case STATION:
+                    editList = elemList.get(2);
+                    editElem = new Station();
+                    break;
                 default:
                     return;
             }
@@ -96,6 +101,9 @@ public class MapController {
             for (Element element : list) {
                 element.paint(g, blocksize);
             }
+        }
+        if (editing) {
+            editElem.paint(g, blocksize);
         }
     }
 

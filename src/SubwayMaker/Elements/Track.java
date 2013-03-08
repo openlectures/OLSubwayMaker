@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 /**
  *
@@ -19,8 +20,8 @@ import java.util.ListIterator;
  */
 public class Track extends Element {
 
-    public static final float DIAMETER_SCALE = (float) 0.8;
-    public static final float TRACK_SCALE = (float) 0.5;
+    public static final float DIAMETER_SCALE = 0.8f;
+    public static final float TRACK_SCALE = 0.5f;
     private List<TrackPoint> trackPoints;
     private boolean complete;
     private Color trackColor;
@@ -28,12 +29,14 @@ public class Track extends Element {
     public Track() {
         complete = false;
         trackPoints = new ArrayList<>();
-        trackColor = Color.magenta;
+
+        Random random = new Random();
+        trackColor = Color.getHSBColor(random.nextFloat(), (random.nextInt(1000) + 8000) / 10000f, (random.nextInt(1000) + 9000) / 10000f);
     }
 
     @Override
     public void add(Point2D pt, boolean mod) {
-        pt.setLocation(Math.round(pt.getX()), Math.round(pt.getY()));
+        pt = nearPoint(pt);
         if (trackPoints.isEmpty()) {
             trackPoints.add(new TrackPoint(pt));
         } else {
@@ -107,7 +110,6 @@ public class Track extends Element {
          */
         TrackPoint(Point2D endPoint, TrackPoint prevPoint, boolean mod) {
             this(endPoint);
-            // TODO U-turns
             turningPoint = !((Math.abs(prevPoint.getX() - x) < DELTA) || (Math.abs(prevPoint.getY() - y) < DELTA));
 
             if (turningPoint) {
