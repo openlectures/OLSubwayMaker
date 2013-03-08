@@ -55,7 +55,7 @@ public class Track extends Element {
         if (it.hasNext()) {
             Point2D iniPt = pointScale(it.next(), blocksize);
             if (!complete) {
-                g.fillOval((int) iniPt.getX() - diameter / 2, (int) iniPt.getY() - diameter / 2, diameter, diameter);
+                g.fillOval((int) Math.round(iniPt.getX() - diameter / 2.0), (int) Math.round(iniPt.getY() - diameter / 2.0), diameter, diameter);
             }
             track.moveTo(iniPt.getX(), iniPt.getY());
 
@@ -113,9 +113,9 @@ public class Track extends Element {
             turningPoint = !((Math.abs(prevPoint.getX() - x) < DELTA) || (Math.abs(prevPoint.getY() - y) < DELTA));
 
             if (turningPoint) {
-                hort = !prevPoint.goingHorizontal();
+                hort = (!prevPoint.goingHorizontal()) ^ mod;
 
-                if (hort ^ mod) {
+                if (hort) {
                     refPoint = new Point2D.Double(prevPoint.getX(), endPoint.getY());
                 } else {
                     refPoint = new Point2D.Double(endPoint.getX(), prevPoint.getY());

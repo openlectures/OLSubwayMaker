@@ -72,7 +72,7 @@ public class Island extends Element {
             g.setColor(INI_COLOR);
             for (it = edgeList.listIterator(); it.hasNext();) {
                 Point2D pt = pointScale(it.next(), blocksize);
-                g.fillOval((int) pt.getX() - diameter / 2, (int) pt.getY() - diameter / 2, diameter, diameter);
+                g.fillOval((int) Math.round(pt.getX() - diameter / 2.0), (int) Math.round(pt.getY() - diameter / 2.0), diameter, diameter);
             }
             g.draw(polygon);
         }

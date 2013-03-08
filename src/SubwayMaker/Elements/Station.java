@@ -54,7 +54,7 @@ public class Station extends Element {
         for (Iterator<Point2D> it = terminalList.iterator(); it.hasNext();) {
             curTer = pointScale(it.next(), blocksize);
 
-            g.fillOval((int) curTer.getX() - diameter / 2, (int) curTer.getY() - diameter / 2, diameter, diameter);
+            g.fillOval((int) Math.round(curTer.getX() - diameter / 2.0), (int) Math.round(curTer.getY() - diameter / 2.0), diameter, diameter);
 
             if (prevTer != null) {
                 g.drawLine((int) prevTer.getX(), (int) prevTer.getY(), (int) curTer.getX(), (int) curTer.getY());
