@@ -313,7 +313,7 @@
                 <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="mainPanelMouseMoved"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JPanel(){&#xd;&#xa;    @Override&#xd;&#xa;    public void paint(Graphics g){&#xd;&#xa;        super.paint(g);&#xd;&#xa;        Graphics2D g2D = (Graphics2D) g;&#xd;&#xa;        mc.paint(g2D);&#xd;&#xa;    }&#xd;&#xa;}"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JPanel(){&#xd;&#xa;    @Override&#xd;&#xa;    public void paint(Graphics g){   &#xd;&#xa;        super.paint(g);&#xd;&#xa;        Graphics2D g2D = (Graphics2D) g;&#xd;&#xa;        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); &#xd;&#xa;        mc.paint(g2D);&#xd;&#xa;    }&#xd;&#xa;}"/>
               </AuxValues>
 
               <Layout>

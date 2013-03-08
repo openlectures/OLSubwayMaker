@@ -69,7 +69,7 @@ public class Track extends Element {
             }
         }
 
-        g.setStroke(new BasicStroke(blocksize * TRACK_SCALE));
+        g.setStroke(new BasicStroke(blocksize * TRACK_SCALE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g.draw(track);
     }
 

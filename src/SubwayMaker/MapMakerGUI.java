@@ -6,6 +6,7 @@ package SubwayMaker;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
@@ -79,9 +80,10 @@ public class MapMakerGUI extends javax.swing.JFrame {
         wrapperPanel = new javax.swing.JPanel();
         mainPanel = new JPanel(){
             @Override
-            public void paint(Graphics g){
+            public void paint(Graphics g){   
                 super.paint(g);
                 Graphics2D g2D = (Graphics2D) g;
+                g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); 
                 mc.paint(g2D);
             }
         };
