@@ -6,6 +6,7 @@ package SubwayMaker;
 
 import SubwayMaker.Elements.Element;
 import SubwayMaker.Elements.Island;
+import SubwayMaker.Elements.Track;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -20,6 +21,7 @@ import java.util.List;
 public class MapController {
 
     public static enum editMode {
+
         NONE, ISLAND, TRACK, STATION
     }
     //Colour of grid
@@ -50,23 +52,27 @@ public class MapController {
     public void addPoint(float x, float y, boolean mod) {
         List<Element> editList;
 
-        Point2D.Float pt = new Point2D.Float(x, y);
-        if (editing) {
-            editElem.add(pt, mod);
-        } else {
+        x /= blocksize;
+        y /= blocksize;
+
+        Point2D pt = new Point2D.Double(x, y);
+        if (!editing) {
             switch (mode) {
                 case ISLAND:
                     editList = elemList.get(0);
                     editElem = new Island();
                     break;
+                case TRACK:
+                    editList = elemList.get(1);
+                    editElem = new Track();
+                    break;
                 default:
                     return;
             }
-
-            editElem.add(pt, mod);
             editList.add(editElem);
             editing = true;
         }
+        editElem.add(pt, mod);
     }
 
     public void complete() {

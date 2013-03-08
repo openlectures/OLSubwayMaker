@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -18,12 +17,11 @@ import java.util.ListIterator;
  *
  * @author Yichen
  */
-public class Island implements Element {
-    
-    public static final Color INI_COLOR = new Color(30, 150, 200);
-    public static final int DIAMETER = 10;
+public class Island extends Element {
 
-    private List<Point2D.Float> edgeList;
+    public static final Color INI_COLOR = new Color(30, 150, 200);
+    public static final float DIAMETER_SCALE = (float) 0.5;
+    private List<Point2D> edgeList;
     private Color fill;
     private boolean complete;
 
@@ -34,8 +32,8 @@ public class Island implements Element {
     }
 
     @Override
-    public void add(Point2D.Float p, boolean mod) {
-        edgeList.add(p);
+    public void add(Point2D pt, boolean mod) {
+        edgeList.add(pt);
     }
 
     @Override
@@ -45,18 +43,20 @@ public class Island implements Element {
 
     @Override
     public void paint(Graphics2D g, int blocksize) {
-        ListIterator<Point2D.Float> it = edgeList.listIterator();
+        int diameter = Math.round(blocksize * DIAMETER_SCALE);
+
+        ListIterator<Point2D> it = edgeList.listIterator();
         GeneralPath polygon = new GeneralPath();
 
         if (it.hasNext()) {
-            Point2D.Float pt = it.next();
-            polygon.moveTo(pt.x, pt.y);
+            Point2D pt = pointScale(it.next(), blocksize);
+            polygon.moveTo(pt.getX(), pt.getY());
             while (it.hasNext()) {
-                pt = it.next();
-                polygon.lineTo(pt.x, pt.y);
+                pt = pointScale(it.next(), blocksize);
+                polygon.lineTo(pt.getX(), pt.getY());
             }
         }
-        
+
         g.setStroke(new BasicStroke(1));
 
         if (complete) {
@@ -66,8 +66,8 @@ public class Island implements Element {
         } else {
             g.setColor(INI_COLOR);
             for (it = edgeList.listIterator(); it.hasNext();) {
-                Point2D.Float pt = it.next();
-                g.fillOval((int)pt.x-DIAMETER/2,(int)pt.y-DIAMETER/2,DIAMETER,DIAMETER);
+                Point2D pt = pointScale(it.next(), blocksize);
+                g.fillOval((int) pt.getX() - diameter / 2, (int) pt.getY() - diameter / 2, diameter, diameter);
             }
             g.draw(polygon);
         }

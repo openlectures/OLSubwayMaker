@@ -9,13 +9,12 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import sun.nio.cs.MS1250;
 
 /**
  *
@@ -326,7 +325,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
 
     private void stationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stationToggleButtonActionPerformed
         mc.complete();
-        if (islandToggleButton.isSelected()) {
+        if (stationToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.STATION);
         } else {
             mc.setMode(MapController.editMode.NONE);
@@ -336,7 +335,7 @@ public class MapMakerGUI extends javax.swing.JFrame {
 
     private void trackToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackToggleButtonActionPerformed
         mc.complete();
-        if (islandToggleButton.isSelected()) {
+        if (trackToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.TRACK);
         } else {
             mc.setMode(MapController.editMode.NONE);
@@ -348,10 +347,14 @@ public class MapMakerGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /*
+         * Set the Nimbus look and feel
+         */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -366,7 +369,9 @@ public class MapMakerGUI extends javax.swing.JFrame {
         //</editor-fold>
 
 
-        /* Create and display the form */
+        /*
+         * Create and display the form
+         */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
