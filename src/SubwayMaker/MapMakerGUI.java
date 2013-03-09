@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
@@ -25,6 +26,7 @@ import javax.swing.KeyStroke;
 public class MapMakerGUI extends javax.swing.JFrame {
 
     private MapController mc;
+    private MouseEvent me;
 
     /**
      * Creates new form MapMakerGUI
@@ -37,7 +39,30 @@ public class MapMakerGUI extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mc.complete();
+                mc.createNewElement();
                 mainPanel.repaint();
+            }
+        });
+
+        mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, InputEvent.SHIFT_DOWN_MASK), "shiftDown");
+        mainPanel.getActionMap().put("shiftDown", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (mc!= null && me != null) {
+                    mc.previewPos(me.getX(), me.getY(), true);
+                    mainPanel.repaint();
+                }
+            }
+        });
+
+        mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0, true), "shiftUp");
+        mainPanel.getActionMap().put("shiftUp", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (mc!= null && me != null) {
+                    mc.previewPos(me.getX(), me.getY(), false);
+                    mainPanel.repaint();
+                }
             }
         });
     }
@@ -306,6 +331,8 @@ public class MapMakerGUI extends javax.swing.JFrame {
     private void mainPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseMoved
         positionLabel.setText("Position: " + evt.getX() + ", " + evt.getY());
 
+        me = evt;
+
         mc.previewPos(evt.getX(), evt.getY(), evt.isShiftDown());
         mainPanel.repaint();
     }//GEN-LAST:event_mainPanelMouseMoved
@@ -324,7 +351,6 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPanelMouseClicked
 
     private void islandToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_islandToggleButtonActionPerformed
-        mc.complete();
         if (islandToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.ISLAND);
         } else {
@@ -334,7 +360,6 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_islandToggleButtonActionPerformed
 
     private void stationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stationToggleButtonActionPerformed
-        mc.complete();
         if (stationToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.STATION);
         } else {
@@ -344,7 +369,6 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_stationToggleButtonActionPerformed
 
     private void trackToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackToggleButtonActionPerformed
-        mc.complete();
         if (trackToggleButton.isSelected()) {
             mc.setMode(MapController.editMode.TRACK);
         } else {
