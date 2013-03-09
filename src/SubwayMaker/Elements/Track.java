@@ -45,6 +45,13 @@ public class Track extends Element {
     }
 
     @Override
+    public void remove() {
+        if (!trackPoints.isEmpty()) {
+            trackPoints.remove(trackPoints.size()-1);
+        }
+    }
+    
+    @Override
     public void paint(Graphics2D g, int blocksize) {
         int diameter = Math.round(blocksize * DIAMETER_SCALE);
 

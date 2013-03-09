@@ -42,6 +42,13 @@ public class Island extends Element {
     }
 
     @Override
+    public void remove() {
+        if (!edgeList.isEmpty()) {
+            edgeList.remove(edgeList.size() - 1);
+        }
+    }
+
+    @Override
     public void complete() {
         complete = true;
     }

@@ -50,7 +50,7 @@ public class MapController {
         }
     }
 
-    public void addPoint(float x, float y, boolean mod) {
+    public void addPoint(double x, double y, boolean mod) {
         List<Element> editList;
 
         x /= blocksize;
@@ -78,6 +78,20 @@ public class MapController {
             editing = true;
         }
         editElem.add(pt, mod);
+    }
+    
+    public void undo(){
+        if (editing) {
+            editElem.remove();
+        }
+    }
+    
+    public void previewPos(double x, double y, boolean mod){
+//        if (editing) {
+//            editElem.remove();
+//            addPoint(x, y, mod);
+//        }
+        
     }
 
     public void complete() {

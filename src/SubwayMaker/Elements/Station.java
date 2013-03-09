@@ -36,6 +36,13 @@ public class Station extends Element {
     }
 
     @Override
+    public void remove() {
+        if (!terminalList.isEmpty()) {
+            terminalList.remove(terminalList.size()-1);
+        }
+    }
+
+    @Override
     public void paint(Graphics2D g, int blocksize) {
         int outerDia = Math.round(OUTER_DIA_SCALE * blocksize);
         float outerLink = OUTER_DIA_SCALE * OUTER_LINK_SCALE * blocksize;

@@ -52,6 +52,11 @@ public abstract class Element {
      *            modified, <code>false</code> otherwise.
      */
     public abstract void add(Point2D pt, boolean mod);
+    
+    /**
+     * Removes the last point added to this element.
+     */
+    public abstract void remove();
 
     /**
      * Paints the

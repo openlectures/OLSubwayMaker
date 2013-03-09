@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -304,6 +305,9 @@ public class MapMakerGUI extends javax.swing.JFrame {
 
     private void mainPanelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseMoved
         positionLabel.setText("Position: " + evt.getX() + ", " + evt.getY());
+
+        mc.previewPos(evt.getX(), evt.getY(), evt.isShiftDown());
+        mainPanel.repaint();
     }//GEN-LAST:event_mainPanelMouseMoved
 
     private void mainPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseExited
@@ -311,7 +315,11 @@ public class MapMakerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPanelMouseExited
 
     private void mainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseClicked
-        mc.addPoint(evt.getX(), evt.getY(), evt.isShiftDown());
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            mc.addPoint(evt.getX(), evt.getY(), evt.isShiftDown());
+        } else if (evt.getButton() == MouseEvent.BUTTON3) {
+            mc.undo();
+        }
         mainPanel.repaint();
     }//GEN-LAST:event_mainPanelMouseClicked
 
