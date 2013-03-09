@@ -52,11 +52,28 @@ public abstract class Element {
      *            modified, <code>false</code> otherwise.
      */
     public abstract void add(Point2D pt, boolean mod);
-    
+
     /**
      * Removes the last point added to this element.
      */
     public abstract void remove();
+
+    /**
+     * Sets the preview point, only painted if the element is not complete.
+     * <p/>
+     * @param pt  The new point to add as a preview.
+     * @param mod The modifier for this new point.
+     */
+    public abstract void setPreview(Point2D pt, boolean mod);
+
+    /**
+     * Returns if the element contains no points.
+     * <p/>
+     * Preview point is not included in the count.
+     * <p/>
+     * @return <code>true</code> if the element has no points.
+     */
+    public abstract boolean isEmpty();
 
     /**
      * Paints the

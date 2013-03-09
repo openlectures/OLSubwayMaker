@@ -23,12 +23,14 @@ public class Track extends Element {
     public static final float DIAMETER_SCALE = 0.8f;
     public static final float TRACK_SCALE = 0.5f;
     private List<TrackPoint> trackPoints;
+    private TrackPoint previewPt;
     private boolean complete;
     private Color trackColor;
 
     public Track() {
         complete = false;
         trackPoints = new ArrayList<>();
+        previewPt = null;
 
         Random random = new Random();
         trackColor = Color.getHSBColor(random.nextFloat(), (random.nextInt(1000) + 8000) / 10000f, (random.nextInt(1000) + 9000) / 10000f);
@@ -42,18 +44,34 @@ public class Track extends Element {
         } else {
             trackPoints.add(new TrackPoint(pt, trackPoints.get(trackPoints.size() - 1), mod));
         }
+        previewPt = null;
+    }
+
+    @Override
+    public void setPreview(Point2D pt, boolean mod) {
+        pt = nearPoint(pt);
+        if (trackPoints.isEmpty()) {
+            previewPt = new TrackPoint(pt);
+        } else {
+            previewPt = new TrackPoint(pt, trackPoints.get(trackPoints.size() - 1), mod);
+        }
     }
 
     @Override
     public void remove() {
         if (!trackPoints.isEmpty()) {
-            trackPoints.remove(trackPoints.size()-1);
+            trackPoints.remove(trackPoints.size() - 1);
         }
     }
-    
+
     @Override
     public void paint(Graphics2D g, int blocksize) {
         int diameter = Math.round(blocksize * DIAMETER_SCALE);
+
+        boolean preview = !(complete || previewPt == null);
+        if (preview) {
+            trackPoints.add(previewPt);
+        }
 
         Path2D track = new Path2D.Double();
         g.setColor(trackColor);
@@ -81,6 +99,15 @@ public class Track extends Element {
 
         g.setStroke(new BasicStroke(blocksize * TRACK_SCALE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         g.draw(track);
+
+        if (preview) {
+            remove();
+        }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return trackPoints.isEmpty();
     }
 
     @Override

@@ -23,12 +23,14 @@ public class Island extends Element {
     public static final Color INI_COLOR = new Color(30, 150, 200);
     public static final float DIAMETER_SCALE = 0.5f;
     private List<Point2D> edgeList;
+    private Point2D previewPt;
     private Color fill;
     private boolean complete;
 
     public Island() {
         complete = false;
         edgeList = new ArrayList<>();
+        previewPt = null;
 
         Random random = new Random();
 
@@ -39,6 +41,12 @@ public class Island extends Element {
     @Override
     public void add(Point2D pt, boolean mod) {
         edgeList.add(pt);
+        previewPt = null;
+    }
+
+    @Override
+    public void setPreview(Point2D pt, boolean mod) {
+        previewPt = pt;
     }
 
     @Override
@@ -54,8 +62,18 @@ public class Island extends Element {
     }
 
     @Override
+    public boolean isEmpty() {
+        return edgeList.isEmpty();
+    }
+
+    @Override
     public void paint(Graphics2D g, int blocksize) {
         int diameter = Math.round(blocksize * DIAMETER_SCALE);
+
+        boolean preview = !(complete || previewPt == null);
+        if (preview) {
+            edgeList.add(previewPt);
+        }
 
         ListIterator<Point2D> it = edgeList.listIterator();
         GeneralPath polygon = new GeneralPath();
@@ -71,7 +89,7 @@ public class Island extends Element {
 
         g.setStroke(new BasicStroke(1));
 
-        if (complete) {
+        if (complete && !edgeList.isEmpty()) {
             g.setColor(fill);
             polygon.closePath();
             g.fill(polygon);
@@ -84,5 +102,8 @@ public class Island extends Element {
             g.draw(polygon);
         }
 
+        if (preview) {
+            remove();
+        }
     }
 }

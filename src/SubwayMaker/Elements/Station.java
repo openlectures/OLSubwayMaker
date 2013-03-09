@@ -23,22 +23,35 @@ public class Station extends Element {
     public static final float INNER_TO_OUTER = 0.7f;
     private boolean complete;
     private List<Point2D> terminalList;
+    private Point2D previewTer;
 
     public Station() {
         complete = false;
         terminalList = new ArrayList<>();
+        previewTer = null;
     }
 
     @Override
     public void add(Point2D pt, boolean mod) {
         pt = nearPoint(pt);
         terminalList.add(pt);
+        previewTer = null;
+    }
+
+    @Override
+    public void setPreview(Point2D pt, boolean mod) {
+        previewTer = nearPoint(pt);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return terminalList.isEmpty();
     }
 
     @Override
     public void remove() {
         if (!terminalList.isEmpty()) {
-            terminalList.remove(terminalList.size()-1);
+            terminalList.remove(terminalList.size() - 1);
         }
     }
 
@@ -47,6 +60,11 @@ public class Station extends Element {
         int outerDia = Math.round(OUTER_DIA_SCALE * blocksize);
         float outerLink = OUTER_DIA_SCALE * OUTER_LINK_SCALE * blocksize;
 
+        boolean preview = !(complete || previewTer == null);
+        if (preview) {
+            terminalList.add(previewTer);
+        }
+
         g.setColor(Color.black);
         g.setStroke(new BasicStroke(outerLink, BasicStroke.CAP_ROUND, BasicStroke.CAP_ROUND));
         paintLayer(g, blocksize, outerDia);
@@ -54,6 +72,10 @@ public class Station extends Element {
         g.setColor(Color.white);
         g.setStroke(new BasicStroke(outerLink - (outerDia * (1 - INNER_TO_OUTER)), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         paintLayer(g, blocksize, (int) (outerDia * INNER_TO_OUTER));
+
+        if (preview) {
+            remove();
+        }
     }
 
     private void paintLayer(Graphics2D g, int blocksize, int diameter) {

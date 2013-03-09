@@ -53,10 +53,7 @@ public class MapController {
     public void addPoint(double x, double y, boolean mod) {
         List<Element> editList;
 
-        x /= blocksize;
-        y /= blocksize;
-
-        Point2D pt = new Point2D.Double(x, y);
+        Point2D pt = new Point2D.Double(x / blocksize, y / blocksize);
         if (!editing) {
             switch (mode) {
                 case ISLAND:
@@ -79,24 +76,43 @@ public class MapController {
         }
         editElem.add(pt, mod);
     }
-    
-    public void undo(){
+
+    public void undo() {
         if (editing) {
             editElem.remove();
         }
     }
-    
-    public void previewPos(double x, double y, boolean mod){
-//        if (editing) {
-//            editElem.remove();
-//            addPoint(x, y, mod);
-//        }
-        
+
+    public void previewPos(double x, double y, boolean mod) {
+        if (editing) {
+            editElem.setPreview(new Point2D.Double(x / blocksize, y / blocksize), mod);
+        }
+
     }
 
     public void complete() {
         if (editing) {
-            editElem.complete();
+            if (editElem.isEmpty()) {
+                List<Element> curList;
+                switch (mode) {
+                    case ISLAND:
+                        curList = elemList.get(0);
+                        break;
+                    case TRACK:
+                        curList = elemList.get(1);
+                        break;
+                    case STATION:
+                        curList = elemList.get(2);
+                        break;
+                    default:
+                        curList = null;
+                }
+                if (curList != null) {
+                    curList.remove(editElem);
+                }
+            } else {
+                editElem.complete();
+            }
             editing = false;
         }
     }
